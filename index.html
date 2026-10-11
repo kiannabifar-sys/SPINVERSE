@@ -1,0 +1,648 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111d">
+<meta name="description" content="SPINVERSE — The ultimate interactive world of table tennis, created by Kian Nabifar.">
+<title>SPINVERSE | The World of Table Tennis</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:#07111d;
+  --panel:#0d1b2a;
+  --panel2:#122438;
+  --text:#f2f7ff;
+  --muted:#9aadc1;
+  --lime:#d6ff45;
+  --cyan:#40d9ff;
+  --line:rgba(255,255,255,.1);
+  --radius:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+img{display:block;width:100%;object-fit:cover}
+::selection{background:var(--lime);color:#07111d}
+.container{width:min(1160px,91%);margin:auto}
+.condensed,h1,h2,h3,.logo,.number{font-family:"Barlow Condensed",sans-serif}
+.eyebrow{color:var(--lime);font-size:.76rem;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.section{padding:100px 0}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:38px}
+.section-head h2{font-size:clamp(2.5rem,5vw,4.3rem);line-height:1.02;text-transform:uppercase;margin-top:10px}
+.section-head p{color:var(--muted);max-width:360px;font-size:.9rem}
+.accent{color:var(--lime)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 22px;border-radius:7px;font-weight:800;font-size:.84rem;transition:.25s;border:1px solid transparent}
+.btn:hover{transform:translateY(-3px)}
+.btn-primary{background:var(--lime);color:#07111d}
+.btn-outline{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.04)}
+.btn-outline:hover{border-color:var(--lime);color:var(--lime)}
+.navbar{position:fixed;z-index:100;inset:0 0 auto;background:rgba(7,17,29,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-size:1.9rem;font-weight:900;letter-spacing:1px;white-space:nowrap}
+.logo span{color:var(--lime)}
+.logo small{display:block;font:700 .52rem Inter,sans-serif;letter-spacing:3px;color:var(--muted);margin-top:-7px}
+.nav-links{display:flex;gap:24px;align-items:center}
+.nav-links a{font-size:.75rem;color:#c2cede;font-weight:700;transition:.2s}
+.nav-links a:hover{color:var(--lime)}
+.menu-btn{display:none;background:transparent;color:white;border:1px solid var(--line);padding:8px 12px;border-radius:8px}
+.hero{min-height:740px;height:min(900px,100svh);position:relative;display:flex;align-items:center;padding-top:76px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,13,23,.98) 0%,rgba(5,13,23,.82) 42%,rgba(5,13,23,.2) 100%),linear-gradient(0deg,var(--bg),transparent 35%),url("https://images.unsplash.com/photo-1611251135345-18c56206b863?auto=format&fit=crop&w=2000&q=85") center/cover}
+.hero-content{position:relative;z-index:2;max-width:760px}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(214,255,69,.35);padding:8px 13px;border-radius:5px;color:var(--lime);font-size:.72rem;letter-spacing:1.5px;font-weight:800}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 15px var(--lime)}
+.hero h1{font-size:clamp(5rem,12vw,10.5rem);line-height:.78;letter-spacing:-3px;font-weight:900;margin:35px 0 28px;text-transform:uppercase}
+.hero h1 span{display:block;color:var(--lime)}
+.hero-copy{max-width:510px;color:#d0dbe8;font-size:1rem;line-height:1.9;margin-bottom:30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-bottom{display:flex;gap:35px;margin-top:48px;padding-top:23px;border-top:1px solid rgba(255,255,255,.17);max-width:550px}
+.hero-stat strong{font:800 2rem "Barlow Condensed";display:block}
+.hero-stat span{font-size:.68rem;color:var(--muted);letter-spacing:1px}
+.scroll-note{position:absolute;right:4.5%;bottom:90px;writing-mode:vertical-rl;color:var(--muted);letter-spacing:3px;font-size:.65rem}
+.ticker{overflow:hidden;background:var(--lime);color:#07111d;padding:13px 0;white-space:nowrap}
+.ticker-track{display:flex;width:max-content;animation:marquee 28s linear infinite}
+.ticker span{font:800 1.1rem "Barlow Condensed";letter-spacing:2px;padding:0 28px}
+.ticker b{color:#507100}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.intro-image{position:relative;min-height:440px;border-radius:var(--radius);overflow:hidden;background:var(--panel)}
+.intro-image img{position:absolute;inset:0;height:100%;transition:transform .6s}
+.intro-image:hover img{transform:scale(1.05)}
+.image-label{position:absolute;bottom:18px;left:18px;right:18px;background:rgba(7,17,29,.87);backdrop-filter:blur(10px);padding:15px 18px;border:1px solid var(--line);border-radius:12px}
+.image-label strong{display:block}
+.image-label span{color:var(--muted);font-size:.78rem}
+.intro-copy h2{font-size:clamp(2.8rem,5vw,4.6rem);line-height:.98;text-transform:uppercase;margin:15px 0 22px}
+.intro-copy p{color:var(--muted);margin-bottom:17px}
+.fact-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:25px}
+.fact{padding:17px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.fact strong{font:800 1.5rem "Barlow Condensed";display:block;color:var(--lime)}
+.fact span{font-size:.75rem;color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:transform .3s,border-color .3s}
+.card:hover{transform:translateY(-7px);border-color:rgba(214,255,69,.55)}
+.card-image{height:220px;position:relative;overflow:hidden;background:var(--panel2)}
+.card-image img{height:100%;transition:transform .5s}
+.card:hover .card-image img{transform:scale(1.06)}
+.card-number{position:absolute;top:14px;left:14px;background:var(--lime);color:#07111d;font-weight:900;padding:5px 10px;border-radius:5px;font-size:.72rem}
+.card-body{padding:23px}
+.card-body h3{font-size:1.7rem;text-transform:uppercase;line-height:1.1;margin-bottom:10px}
+.card-body p{font-size:.85rem;color:var(--muted);margin-bottom:17px}
+.card-link{color:var(--lime);font-weight:800;font-size:.78rem}
+.dark-band{background:linear-gradient(120deg,#102539,#0a1522);border-block:1px solid var(--line)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px}
+.time-item{padding:0 22px 20px;border-left:1px solid rgba(214,255,69,.4);position:relative}
+.time-item:before{content:"";position:absolute;width:9px;height:9px;left:-5px;top:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 15px var(--lime)}
+.time-item strong{font:800 2.5rem "Barlow Condensed";color:var(--lime);display:block}
+.time-item h3{font-size:1.4rem;margin:7px 0;text-transform:uppercase}
+.time-item p{font-size:.8rem;color:var(--muted)}
+.rule-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.rule{background:var(--panel);padding:25px;border:1px solid var(--line);border-radius:16px}
+.rule .icon{font-size:1.8rem}
+.rule h3{font-size:1.45rem;margin:12px 0 6px;text-transform:uppercase}
+.rule p{font-size:.84rem;color:var(--muted)}
+.rule .rule-number{font:800 2.8rem "Barlow Condensed";color:var(--lime)}
+.skill-tabs{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0}
+.skill-tab{background:var(--panel);border:1px solid var(--line);color:var(--muted);padding:10px 17px;border-radius:7px;font-weight:800;font-size:.78rem}
+.skill-tab.active,.skill-tab:hover{background:var(--lime);color:#07111d;border-color:var(--lime)}
+.skill-feature{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:20px;border-radius:var(--radius)}
+.skill-feature img{height:360px;border-radius:14px}
+.skill-info{padding:15px}
+.skill-info h3{font-size:3rem;text-transform:uppercase;line-height:1;margin:12px 0}
+.skill-info p{color:var(--muted);margin-bottom:20px}
+.skill-tip{padding:16px;border-left:3px solid var(--lime);background:rgba(214,255,69,.06);font-size:.85rem}
+.players{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.player{position:relative;min-height:340px;border-radius:16px;overflow:hidden;background:var(--panel)}
+.player img{position:absolute;inset:0;height:100%;transition:transform .5s}
+.player:hover img{transform:scale(1.07)}
+.player:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,11,19,.98),transparent 80%)}
+.player-info{position:absolute;z-index:1;bottom:18px;left:17px;right:17px}
+.player-info .country{color:var(--lime);font-size:.68rem;font-weight:800;letter-spacing:2px}
+.player-info h3{font-size:1.8rem;text-transform:uppercase;line-height:1.1;margin:6px 0}
+.player-info p{font-size:.75rem;color:#c4d0de}
+.player-placeholder{position:absolute;inset:0;background:linear-gradient(145deg,#1a3b50,#08131f);display:flex;align-items:center;justify-content:center;font:900 5rem "Barlow Condensed";color:rgba(214,255,69,.3)}
+.equipment-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.equipment{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px}
+.equipment .eq-icon{font-size:2.4rem}
+.equipment h3{font-size:1.5rem;text-transform:uppercase;margin:12px 0 6px}
+.equipment p{font-size:.8rem;color:var(--muted)}
+.training-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.training-card{padding:30px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+.training-card h3{font-size:2rem;text-transform:uppercase;margin-bottom:18px}
+.drill{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:.85rem}
+.drill span:last-child{color:var(--lime);white-space:nowrap}
+.quiz-wrap{display:grid;grid-template-columns:.75fr 1.25fr;gap:35px;align-items:start}
+.quiz-intro{position:sticky;top:110px}
+.quiz-intro h2{font-size:clamp(3rem,6vw,5rem);line-height:.9;text-transform:uppercase;margin:15px 0}
+.quiz-intro p{color:var(--muted);margin:18px 0}
+.quiz-box{background:var(--panel);border:1px solid var(--line);padding:30px;border-radius:var(--radius)}
+.quiz-top{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.78rem;margin-bottom:15px}
+.progress{height:5px;background:#243548;border-radius:5px;overflow:hidden;margin-bottom:28px}
+.progress-bar{height:100%;width:0;background:var(--lime);transition:width .3s}
+.question{font-size:1.55rem;font-weight:800;line-height:1.35;margin-bottom:22px}
+.answers{display:grid;gap:10px}
+.answer{padding:14px 16px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.025);text-align:left;color:var(--text);transition:.2s}
+.answer:hover:not(:disabled){border-color:var(--lime)}
+.answer.correct{border-color:#4be09b;background:rgba(75,224,155,.12)}
+.answer.wrong{border-color:#ff7373;background:rgba(255,115,115,.12)}
+.answer:disabled{cursor:default}
+.quiz-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}
+.quiz-feedback{color:var(--muted);font-size:.8rem}
+.result{text-align:center;padding:25px 0}
+.result-score{font:900 5rem "Barlow Condensed";color:var(--lime)}
+.result h3{font-size:2rem;text-transform:uppercase}
+.hidden{display:none!important}
+.cta{position:relative;overflow:hidden;padding:70px 35px;background:var(--lime);color:#07111d;border-radius:var(--radius);text-align:center}
+.cta h2{font-size:clamp(3rem,8vw,6rem);line-height:.9;text-transform:uppercase}
+.cta p{max-width:550px;margin:20px auto 25px;color:#31420c}
+.cta .btn{background:#07111d;color:white}
+.footer{padding:45px 0 25px}
+.footer-top{display:flex;justify-content:space-between;gap:30px;align-items:start;padding-bottom:35px;border-bottom:1px solid var(--line)}
+.footer p{max-width:340px;color:var(--muted);font-size:.82rem;margin-top:12px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{color:var(--muted);font-size:.8rem}
+.footer-links a:hover{color:var(--lime)}
+.footer-bottom{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;padding-top:22px;color:var(--muted);font-size:.72rem}
+.back-top{position:fixed;bottom:20px;right:20px;z-index:90;background:var(--lime);color:#07111d;border:0;width:44px;height:44px;border-radius:50%;font-weight:900;box-shadow:0 5px 20px #0005}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.reveal{opacity:1;transform:none}}
+@media(max-width:850px){
+ .nav-links{display:none;position:absolute;top:76px;left:0;right:0;background:#0b1928;padding:22px 5%;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start;gap:18px}
+ .nav-links.open{display:flex}.menu-btn{display:block}.nav-inner>.btn{display:none}
+ .hero{min-height:720px}.hero h1{font-size:clamp(5rem,16vw,8rem)}
+ .intro-grid{grid-template-columns:1fr;gap:32px}.intro-image{min-height:350px}
+ .cards{grid-template-columns:repeat(2,1fr)}.players{grid-template-columns:repeat(2,1fr)}
+ .equipment-grid{grid-template-columns:repeat(2,1fr)}.timeline{grid-template-columns:repeat(2,1fr);row-gap:25px}
+ .quiz-wrap{grid-template-columns:1fr}.quiz-intro{position:static}.rule-grid{grid-template-columns:repeat(2,1fr)}
+ .skill-feature{grid-template-columns:1fr}.skill-feature img{height:280px}
+}
+@media(max-width:520px){
+ .section{padding:68px 0}.section-head{display:block}.section-head p{margin-top:14px}
+ .hero{min-height:700px}.hero h1{font-size:5.1rem;letter-spacing:-1px}.hero-copy{font-size:.9rem}
+ .hero-bottom{gap:18px}.hero-stat strong{font-size:1.65rem}.scroll-note{display:none}
+ .cards,.rule-grid,.training-grid{grid-template-columns:1fr}
+ .players{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .player{min-height:280px}.player-info h3{font-size:1.4rem}
+ .timeline{grid-template-columns:1fr 1fr}.time-item{padding-left:15px;padding-right:10px}
+ .quiz-box{padding:20px}.question{font-size:1.25rem}
+ .footer-top{flex-direction:column}.fact-row{gap:8px}.intro-image{min-height:290px}
+}
+</style>
+</head>
+
+<body>
+<header class="navbar">
+  <div class="container nav-inner">
+    <a class="logo" href="#home">SPIN<span>VERSE</span><small>THE WORLD OF TABLE TENNIS</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+      <a href="#about">ABOUT</a>
+      <a href="#history">HISTORY</a>
+      <a href="#rules">RULES</a>
+      <a href="#skills">SKILLS</a>
+      <a href="#legends">LEGENDS</a>
+      <a href="#quiz">QUIZ</a>
+    </nav>
+    <a class="btn btn-primary" href="#quiz">TAKE THE QUIZ ↗</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Open navigation" aria-expanded="false">☰ MENU</button>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="container hero-content">
+    <div class="hero-tag"><span class="pulse"></span> YOUR ULTIMATE TABLE TENNIS GUIDE</div>
+    <h1>OWN THE<br><span>SPIN.</span> RULE<br>THE GAME.</h1>
+    <p class="hero-copy">Fast reactions. Smart strategy. Incredible precision. Discover the sport where every millisecond matters and every point tells a story.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#about">EXPLORE THE WORLD ↗</a>
+      <a class="btn btn-outline" href="#skills">LEARN THE SKILLS ▶</a>
+    </div>
+    <div class="hero-bottom">
+      <div class="hero-stat"><strong>2.74 m</strong><span>TABLE LENGTH</span></div>
+      <div class="hero-stat"><strong>40 mm</strong><span>BALL DIAMETER</span></div>
+      <div class="hero-stat"><strong>11 PTS</strong><span>STANDARD GAME</span></div>
+    </div>
+  </div>
+  <div class="scroll-note">SCROLL TO EXPLORE ↓</div>
+</section>
+
+<div class="ticker" aria-label="Table tennis highlights">
+  <div class="ticker-track">
+    <span>PRECISION <b>✳</b> SPEED <b>✳</b> STRATEGY <b>✳</b> CONTROL <b>✳</b> SPIN <b>✳</b> PASSION <b>✳</b> PRECISION <b>✳</b> SPEED <b>✳</b> STRATEGY <b>✳</b> CONTROL <b>✳</b> SPIN <b>✳</b> PASSION <b>✳</b></span>
+    <span>PRECISION <b>✳</b> SPEED <b>✳</b> STRATEGY <b>✳</b> CONTROL <b>✳</b> SPIN <b>✳</b> PASSION <b>✳</b> PRECISION <b>✳</b> SPEED <b>✳</b> STRATEGY <b>✳</b> CONTROL <b>✳</b> SPIN <b>✳</b> PASSION <b>✳</b></span>
+  </div>
+</div>
+
+<section class="section" id="about">
+ <div class="container intro-grid reveal">
+  <div class="intro-image">
+   <img src="https://images.unsplash.com/photo-1611251135345-18c56206b863?auto=format&fit=crop&w=1100&q=85" alt="Table tennis equipment and playing area" loading="lazy">
+   <div class="image-label"><strong>MORE THAN JUST A GAME.</strong><span>A sport of speed, focus, and intelligent decisions.</span></div>
+  </div>
+  <div class="intro-copy">
+   <div class="eyebrow">01 / THE BIG PICTURE</div>
+   <h2>SMALL BALL.<br><span class="accent">BIG ENERGY.</span></h2>
+   <p>Table tennis, also known as ping-pong, is a fast-paced racket sport played by two opponents in singles or four players in doubles.</p>
+   <p>Players use small rackets to hit a lightweight ball over a net. The goal is simple: make a legal return that your opponent cannot successfully return.</p>
+   <p>But mastering the game takes much more than hitting the ball. Players need excellent footwork, quick reactions, concentration, and tactical thinking.</p>
+   <div class="fact-row">
+    <div class="fact"><strong>1988</strong><span>OLYMPIC DEBUT</span></div>
+    <div class="fact"><strong>2 or 4</strong><span>PLAYERS ON COURT</span></div>
+    <div class="fact"><strong>11</strong><span>POINTS TO WIN A GAME</span></div>
+    <div class="fact"><strong>ALL AGES</strong><span>A SPORT FOR EVERYONE</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section dark-band" id="history">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">02 / FROM THE PAST TO THE PRESENT</div><h2>A HISTORY OF<br><span class="accent">SPEED.</span></h2></div>
+   <p>From a home pastime to a global competitive sport, table tennis has travelled a remarkable journey.</p>
+  </div>
+  <div class="timeline reveal">
+   <div class="time-item"><strong>1880s</strong><h3>The Beginning</h3><p>Early versions of table tennis developed in England as an indoor game inspired by lawn tennis.</p></div>
+   <div class="time-item"><strong>1926</strong><h3>International Sport</h3><p>The International Table Tennis Federation (ITTF) was founded, and the first World Championships took place.</p></div>
+   <div class="time-item"><strong>1988</strong><h3>Olympic Stage</h3><p>Table tennis became an official Olympic sport at the Seoul Olympic Games.</p></div>
+   <div class="time-item"><strong>TODAY</strong><h3>Global Competition</h3><p>Millions enjoy the sport, from recreational players to elite athletes competing internationally.</p></div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="rules">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">03 / KNOW THE GAME</div><h2>THE RULES<br><span class="accent">OF PLAY.</span></h2></div>
+   <p>Learn the fundamentals before stepping up to the table. These basic rules make the game fair and exciting.</p>
+  </div>
+  <div class="rule-grid">
+   <article class="rule reveal"><div class="rule-number">01</div><div class="icon">🎯</div><h3>Scoring</h3><p>A game is normally played to 11 points. You must win by at least two points. At 10–10, play continues until one player leads by two.</p></article>
+   <article class="rule reveal"><div class="rule-number">02</div><div class="icon">🏓</div><h3>The Serve</h3><p>The ball starts on an open palm, is thrown nearly vertically at least 16 cm, and is struck so it bounces on the server's side and then the receiver's side.</p></article>
+   <article class="rule reveal"><div class="rule-number">03</div><div class="icon">🔄</div><h3>Alternating Serves</h3><p>Players normally serve two points each in turn. After 10–10, service alternates after every point.</p></article>
+   <article class="rule reveal"><div class="rule-number">04</div><div class="icon">🧠</div><h3>Winning a Point</h3><p>You score when your opponent fails to make a legal return, commits a fault, or sends the ball out of play.</p></article>
+   <article class="rule reveal"><div class="rule-number">05</div><div class="icon">🤝</div><h3>Doubles</h3><p>In doubles, partners alternate hitting the ball. The serve must travel diagonally from the right half of the server's court to the right half of the receiver's court.</p></article>
+   <article class="rule reveal"><div class="rule-number">06</div><div class="icon">🏆</div><h3>Matches</h3><p>A match consists of an odd number of games. The winner is the player or pair that wins the required majority of games.</p></article>
+  </div>
+  <p style="color:var(--muted);font-size:.75rem;margin-top:20px">Educational summary. Official regulations are published by the International Table Tennis Federation (ITTF).</p>
+ </div>
+</section>
+
+<section class="section dark-band" id="skills">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">04 / BUILD YOUR GAME</div><h2>MASTER THE<br><span class="accent">TECHNIQUES.</span></h2></div>
+   <p>Every great player combines reliable basic strokes with spin, placement, and smart movement.</p>
+  </div>
+  <div class="skill-tabs" role="group" aria-label="Choose a table tennis technique">
+   <button class="skill-tab active" data-skill="forehand">FOREHAND</button>
+   <button class="skill-tab" data-skill="backhand">BACKHAND</button>
+   <button class="skill-tab" data-skill="topspin">TOPSPIN</button>
+   <button class="skill-tab" data-skill="push">PUSH</button>
+   <button class="skill-tab" data-skill="block">BLOCK</button>
+   <button class="skill-tab" data-skill="serve">SERVE</button>
+  </div>
+  <div class="skill-feature reveal">
+   <img id="skillImage" src="https://images.unsplash.com/photo-1611251135345-18c56206b863?auto=format&fit=crop&w=1000&q=85" alt="Table tennis practice" loading="lazy">
+   <div class="skill-info">
+    <div class="eyebrow" id="skillNumber">TECHNIQUE 01</div>
+    <h3 id="skillTitle">THE FOREHAND</h3>
+    <p id="skillDescription">The forehand is a powerful attacking stroke played on the racket-hand side of your body. It is useful for creating speed, applying pressure, and finishing opportunities.</p>
+    <div class="skill-tip"><strong>COACH'S TIP:</strong><br><span id="skillTip">Stay balanced, rotate your body naturally, and make contact in front of you. Prioritize control before adding power.</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="legends">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">05 / THE GREATS</div><h2>LEGENDS OF<br><span class="accent">THE GAME.</span></h2></div>
+   <p>Meet some of the outstanding players who have shaped modern table tennis.</p>
+  </div>
+  <div class="players">
+   <article class="player reveal">
+    <img src="https://images.unsplash.com/photo-1566753323558-f4e0952af115?auto=format&fit=crop&w=650&q=80" alt="Portrait representing Ma Long" loading="lazy">
+    <div class="player-info"><div class="country">CHINA</div><h3>MA LONG</h3><p>Olympic champion renowned for his consistency, technique, and tactical intelligence.</p></div>
+   </article>
+   <article class="player reveal">
+    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=650&q=80" alt="Portrait representing Fan Zhendong" loading="lazy">
+    <div class="player-info"><div class="country">CHINA</div><h3>FAN ZHENDONG</h3><p>A dominant modern player known for explosive attacks and exceptional close-table play.</p></div>
+   </article>
+   <article class="player reveal">
+    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=650&q=80" alt="Portrait representing Hugo Calderano" loading="lazy">
+    <div class="player-info"><div class="country">BRAZIL</div><h3>HUGO CALDERANO</h3><p>A leading Brazilian player celebrated for his athleticism and powerful topspin.</p></div>
+   </article>
+   <article class="player reveal">
+    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=650&q=80" alt="Portrait representing Tomokazu Harimoto" loading="lazy">
+    <div class="player-info"><div class="country">JAPAN</div><h3>TOMOKAZU HARIMOTO</h3><p>A Japanese star recognized for his quick timing, aggressive returns, and intensity.</p></div>
+   </article>
+  </div>
+  <p style="font-size:.76rem;color:var(--muted);margin-top:18px">Note: These are illustrative portrait images, not verified photographs of the named athletes. Player achievements and rankings can change over time.</p>
+ </div>
+</section>
+
+<section class="section dark-band" id="equipment">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">06 / WHAT YOU NEED</div><h2>THE EQUIPMENT<br><span class="accent">LAB.</span></h2></div>
+   <p>The right equipment helps you develop good technique, consistent control, and confidence.</p>
+  </div>
+  <div class="equipment-grid">
+   <article class="equipment reveal"><div class="eq-icon">🏓</div><h3>The Racket</h3><p>A wooden blade covered with approved rubber sheets. Grip and blade feel affect control and speed.</p></article>
+   <article class="equipment reveal"><div class="eq-icon">⚪</div><h3>The Ball</h3><p>A lightweight, hollow plastic ball with a standard diameter of 40 mm in modern competition.</p></article>
+   <article class="equipment reveal"><div class="eq-icon">📐</div><h3>The Table</h3><p>A regulation table is 2.74 m long and 1.525 m wide, with its playing surface 76 cm above the floor.</p></article>
+   <article class="equipment reveal"><div class="eq-icon">👟</div><h3>Sports Shoes</h3><p>Indoor shoes with suitable grip and support help players move quickly and maintain balance.</p></article>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="training">
+ <div class="container">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">07 / LEVEL UP</div><h2>TRAIN SMART.<br><span class="accent">PLAY BETTER.</span></h2></div>
+   <p>Consistency is more important than trying to hit every ball as hard as possible.</p>
+  </div>
+  <div class="training-grid">
+   <div class="training-card reveal">
+    <div class="eyebrow">DAILY PRACTICE</div><h3>THE TRAINING PLAN</h3>
+    <div class="drill"><span>Warm-up and footwork</span><span>5–10 min</span></div>
+    <div class="drill"><span>Forehand consistency</span><span>10 min</span></div>
+    <div class="drill"><span>Backhand consistency</span><span>10 min</span></div>
+    <div class="drill"><span>Serve and receive</span><span>10 min</span></div>
+    <div class="drill"><span>Controlled match play</span><span>10–15 min</span></div>
+   </div>
+   <div class="training-card reveal">
+    <div class="eyebrow">MINDSET & STRATEGY</div><h3>THINK LIKE A PLAYER</h3>
+    <div class="drill"><span>Watch your opponent's position</span><span>01</span></div>
+    <div class="drill"><span>Vary speed and spin</span><span>02</span></div>
+    <div class="drill"><span>Recover after every stroke</span><span>03</span></div>
+    <div class="drill"><span>Choose placement, not just power</span><span>04</span></div>
+    <div class="drill"><span>Learn from every point</span><span>05</span></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section dark-band" id="quiz">
+ <div class="container quiz-wrap">
+  <div class="quiz-intro reveal">
+   <div class="eyebrow">08 / TEST YOUR KNOWLEDGE</div>
+   <h2>ARE YOU A<br><span class="accent">TABLE TENNIS PRO?</span></h2>
+   <p>Take the SPINVERSE challenge! Answer ten questions about rules, equipment, history, and techniques.</p>
+   <div class="fact"><strong>10 QUESTIONS</strong><span>ONE FINAL SCORE. HOW MUCH DO YOU KNOW?</span></div>
+  </div>
+  <div class="quiz-box reveal">
+   <div id="quizGame">
+    <div class="quiz-top"><span id="questionCount">QUESTION 1 OF 10</span><span id="scoreLabel">SCORE: 0</span></div>
+    <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="question" id="questionText">How many points are normally needed to win a game?</div>
+    <div class="answers" id="answerList"></div>
+    <div class="quiz-bottom"><span class="quiz-feedback" id="feedback" aria-live="polite">Choose the best answer.</span><button class="btn btn-primary" id="nextBtn" disabled>NEXT →</button></div>
+   </div>
+   <div class="result hidden" id="quizResult" aria-live="polite">
+    <div class="eyebrow">CHALLENGE COMPLETE</div>
+    <div class="result-score" id="finalScore">0/10</div>
+    <h3 id="resultTitle">NICE TRY!</h3>
+    <p id="resultMessage" style="color:var(--muted);margin:12px 0 24px"></p>
+    <button class="btn btn-primary" id="restartBtn">PLAY AGAIN ↻</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section">
+ <div class="container">
+  <div class="cta reveal">
+   <div class="eyebrow" style="color:#31420c">YOUR JOURNEY STARTS HERE</div>
+   <h2>FIND YOUR<br>SPIN.</h2>
+   <p>Learn the rules, explore legendary players, train your skills, and discover why table tennis is one of the most exciting racket sports in the world.</p>
+   <a class="btn" href="#home">BACK TO THE TOP ↑</a>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer class="footer">
+ <div class="container">
+  <div class="footer-top">
+   <div>
+    <a class="logo" href="#home">SPIN<span>VERSE</span><small>THE WORLD OF TABLE TENNIS</small></a>
+    <p>An English-language educational project exploring the speed, science, skills, and spirit of table tennis.</p>
+   </div>
+   <div class="footer-links">
+    <a href="#about">About</a><a href="#history">History</a><a href="#rules">Rules</a><a href="#skills">Techniques</a><a href="#equipment">Equipment</a><a href="#quiz">Quiz</a>
+   </div>
+  </div>
+  <div class="footer-bottom">
+   <span>© <span id="year"></span> SPINVERSE. Educational project.</span>
+   <span>CREATED BY <strong style="color:var(--lime)">KIAN NABIFAR</strong> 🏓</span>
+  </div>
+ </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="Back to top" title="Back to top">↑</button>
+
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+
+menuBtn.addEventListener("click", () => {
+  const open = navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+  menuBtn.textContent = open ? "✕ CLOSE" : "☰ MENU";
+});
+navLinks.querySelectorAll("a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded","false");
+    menuBtn.textContent = "☰ MENU";
+  });
+});
+
+document.getElementById("year").textContent = new Date().getFullYear();
+const backTop = document.getElementById("backTop");
+window.addEventListener("scroll", () => {
+  backTop.classList.toggle("hidden", window.scrollY < 500);
+});
+backTop.addEventListener("click", () => window.scrollTo({top:0,behavior:"smooth"}));
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:0.12});
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+const skills = {
+ forehand:{
+  title:"THE FOREHAND",
+  number:"TECHNIQUE 01",
+  description:"The forehand is an attacking stroke played on the racket-hand side of your body. It helps you create speed, apply pressure, and finish opportunities.",
+  tip:"Stay balanced, rotate your body naturally, and contact the ball in front of you. Prioritize control before adding power."
+ },
+ backhand:{
+  title:"THE BACKHAND",
+  number:"TECHNIQUE 02",
+  description:"The backhand is played across the front of the body. It is especially useful for quick exchanges close to the table and for maintaining consistent rallies.",
+  tip:"Keep your stance stable, use a compact movement, and watch the ball carefully through contact."
+ },
+ topspin:{
+  title:"THE TOPSPIN",
+  number:"TECHNIQUE 03",
+  description:"Topspin makes the ball rotate forward. This spin helps the ball dip toward the table and allows players to attack with a strong, controlled trajectory.",
+  tip:"Brush the ball from low to high and adjust your racket angle to the incoming spin."
+ },
+ push:{
+  title:"THE PUSH",
+  number:"TECHNIQUE 04",
+  description:"The push is a controlled stroke often used against backspin. It helps keep the ball low and can make an opponent's next attack more difficult.",
+  tip:"Use a gentle forward movement and read the incoming spin before deciding your racket angle."
+ },
+ block:{
+  title:"THE BLOCK",
+  number:"TECHNIQUE 05",
+  description:"A block redirects an opponent's attacking shot using a compact racket movement. Good timing and positioning are essential to control the pace.",
+  tip:"Stay close to the table, keep your racket in front, and use the opponent's speed instead of swinging too much."
+ },
+ serve:{
+  title:"THE SERVE",
+  number:"TECHNIQUE 06",
+  description:"The serve starts every point. Players vary placement, speed, and spin to make the next shot difficult for the receiver.",
+  tip:"Practice legal ball tosses, consistent contact, and different spin variations while keeping the serve reliable."
+ }
+};
+
+document.querySelectorAll(".skill-tab").forEach(button => {
+ button.addEventListener("click", () => {
+  document.querySelectorAll(".skill-tab").forEach(b => b.classList.remove("active"));
+  button.classList.add("active");
+  const s = skills[button.dataset.skill];
+  document.getElementById("skillTitle").textContent = s.title;
+  document.getElementById("skillNumber").textContent = s.number;
+  document.getElementById("skillDescription").textContent = s.description;
+  document.getElementById("skillTip").textContent = s.tip;
+  document.getElementById("skillImage").alt = s.title + " table tennis technique";
+ });
+});
+
+const questions = [
+ {q:"How many points are normally needed to win a game?",a:["7 points","11 points","15 points","21 points"],correct:1,ex:"A standard game is played to 11 points, with a two-point winning margin."},
+ {q:"In which year did table tennis become an Olympic sport?",a:["1926","1972","1988","2000"],correct:2,ex:"Table tennis made its Olympic debut at Seoul 1988."},
+ {q:"What is the standard diameter of a modern competition ball?",a:["30 mm","38 mm","40 mm","50 mm"],correct:2,ex:"The standard competition ball has a diameter of 40 mm."},
+ {q:"How long is a regulation table?",a:["2.00 m","2.44 m","2.74 m","3.00 m"],correct:2,ex:"A regulation table is 2.74 metres long."},
+ {q:"What is the name of the international governing body?",a:["FIFA","ITTF","FIBA","IOC"],correct:1,ex:"ITTF stands for the International Table Tennis Federation."},
+ {q:"What happens when the score reaches 10–10?",a:["The game ends","Play to 15 automatically","Players alternate serves every point","The referee flips a coin"],correct:2,ex:"At 10–10, service alternates after each point and a two-point lead is needed."},
+ {q:"What does topspin make the ball do?",a:["Rotate forward","Stop rotating","Become heavier","Always bounce sideways"],correct:0,ex:"Topspin is forward rotation that helps the ball dip toward the table."},
+ {q:"How many players take part in a doubles match?",a:["Two","Three","Four","Six"],correct:2,ex:"Doubles has two players on each side, four in total."},
+ {q:"How high must the ball be thrown on a legal serve?",a:["At least 5 cm","At least 10 cm","At least 16 cm","At least 30 cm"],correct:2,ex:"The ball must be thrown nearly vertically at least 16 cm from the open palm."},
+ {q:"Which skill helps players return to a good position between strokes?",a:["Footwork","Changing the ball","Moving the net","Closing your eyes"],correct:0,ex:"Good footwork helps players maintain balance and prepare for the next shot."}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const questionCount = document.getElementById("questionCount");
+const scoreLabel = document.getElementById("scoreLabel");
+const progressBar = document.getElementById("progressBar");
+const questionText = document.getElementById("questionText");
+const answerList = document.getElementById("answerList");
+const feedback = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+const quizGame = document.getElementById("quizGame");
+const quizResult = document.getElementById("quizResult");
+
+function renderQuestion(){
+ answered = false;
+ const item = questions[current];
+ questionCount.textContent = `QUESTION ${current+1} OF ${questions.length}`;
+ scoreLabel.textContent = `SCORE: ${score}`;
+ progressBar.style.width = `${current/questions.length*100}%`;
+ questionText.textContent = item.q;
+ answerList.innerHTML = "";
+ feedback.textContent = "Choose the best answer.";
+ nextBtn.disabled = true;
+ nextBtn.textContent = current === questions.length-1 ? "SEE RESULTS →" : "NEXT →";
+
+ item.a.forEach((answer,index) => {
+  const button = document.createElement("button");
+  button.className = "answer";
+  button.textContent = `${String.fromCharCode(65+index)}. ${answer}`;
+  button.addEventListener("click", () => selectAnswer(index,button));
+  answerList.appendChild(button);
+ });
+}
+
+function selectAnswer(index,button){
+ if(answered) return;
+ answered = true;
+ const item = questions[current];
+ const buttons = [...answerList.querySelectorAll("button")];
+ buttons.forEach(b => b.disabled = true);
+ buttons[item.correct].classList.add("correct");
+
+ if(index === item.correct){
+  score++;
+  feedback.textContent = "✓ Correct! " + item.ex;
+  feedback.style.color = "#4be09b";
+ } else {
+  button.classList.add("wrong");
+  feedback.textContent = "Not quite. " + item.ex;
+  feedback.style.color = "#ffb0b0";
+ }
+ scoreLabel.textContent = `SCORE: ${score}`;
+ progressBar.style.width = `${(current+1)/questions.length*100}%`;
+ nextBtn.disabled = false;
+}
+
+nextBtn.addEventListener("click", () => {
+ if(!answered) return;
+ current++;
+ if(current < questions.length){
+  renderQuestion();
+ } else {
+  quizGame.classList.add("hidden");
+  quizResult.classList.remove("hidden");
+  document.getElementById("finalScore").textContent = `${score}/${questions.length}`;
+  const title = document.getElementById("resultTitle");
+  const message = document.getElementById("resultMessage");
+  if(score >= 9){
+   title.textContent = "TABLE TENNIS MASTER!";
+   message.textContent = "Outstanding! You have an excellent understanding of the game.";
+  } else if(score >= 7){
+   title.textContent = "GREAT PERFORMANCE!";
+   message.textContent = "Well done! You know the sport very well. Keep improving your skills.";
+  } else if(score >= 5){
+   title.textContent = "GOOD PROGRESS!";
+   message.textContent = "You have a solid start. Explore the rules and techniques, then try again.";
+  } else {
+   title.textContent = "KEEP PRACTICING!";
+   message.textContent = "Every champion starts somewhere. Explore SPINVERSE and challenge yourself again.";
+  }
+ }
+});
+
+document.getElementById("restartBtn").addEventListener("click", () => {
+ current = 0;
+ score = 0;
+ quizResult.classList.add("hidden");
+ quizGame.classList.remove("hidden");
+ renderQuestion();
+});
+
+renderQuestion();
+</script>
+</body>
+</html>
